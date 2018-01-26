@@ -10,13 +10,28 @@
 		"name": "Bas Biesheuvel",
 		"email": "athaphian@gmail.com"
 	},
+	"contributors": [
+		{
+			"name": "Bas Biesheuvel",
+			"email": "athaphian@gmail.com"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com:Athaphian/express-api-tools.git"
+	},
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": "https://github.com/Athaphian/express-ws-event-bus/blob/master/LICENSE-MIT"
+			"url": "https://github.com/Athaphian/express-api-tools/blob/master/LICENSE-MIT"
 		}
 	],
 	"dependencies": {
 		"limiter": "^1.1.2"
-	}
+	},
+	"keywords": [
+		"express",
+		"api",
+		"tools"
+	]
 }
