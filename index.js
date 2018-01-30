@@ -3,7 +3,8 @@ const cache = require('./modules/cache'),
 	register_endpoint = require('./modules/register_endpoint'),
 	env = require('./modules/env'),
 	health = require('./modules/health'),
-	uptime = require('./modules/uptime');
+	uptime = require('./modules/uptime'),
+	jsonFetch = require('./modules/jsonFetch');
 
 module.exports = {
 	cache,
@@ -11,5 +12,6 @@ module.exports = {
 	register_endpoint,
 	env,
 	health,
-	uptime
+	uptime,
+	jsonFetch
 };

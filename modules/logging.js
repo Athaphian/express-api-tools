@@ -6,6 +6,10 @@ module.exports = (function() {
 		logging = loggingEnabled;
 	}
 
+	function isEnabled() {
+		return logging;
+	}
+
 	function info() {
 		if (logging) {
 			console.log.apply(this, arguments);
@@ -30,6 +34,7 @@ module.exports = (function() {
 		'info': info,
 		'error': error,
 		'setEnabled': setEnabled,
-		'enableLoggingBasedOnParam': enableLoggingBasedOnParam
+		'enableLoggingBasedOnParam': enableLoggingBasedOnParam,
+		'isEnabled': isEnabled
 	};
 }());

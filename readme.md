@@ -96,6 +96,39 @@ it will be cached for 1 minute (60000ms).
 
 It is possible to use variables in the api request pretty easily.
 
+### JSON Fetch
+Another pragmatic utility to call other api endpoints that will respond with json. This utility supports mocking that
+data using mockfiles.
+
+Usage:
+```javascript
+const jsonFetch = require('express-api-tools').jsonFetch;
+
+jsonFetch.getJson('https://www.google.com', headers).then(body => {
+    // Do something with json body
+}).catch((err) => {
+    const {error, response} = err;
+    
+    if (response) {
+    	// There was a response with  status code other than 200
+    	// The error variable contains the error message
+        response.json().then(body => {
+            // Json body could be parsed
+        }).catch(() => {
+            // The response body was not in json
+        });
+    } else {
+        // Something else went wrong, the err variable contains the error
+    }
+});
+```
+
+> A simple post variant is also available.
+
+> Mocks can be enabled by starting the server using a command line argument mocks=./someMocksFile.json. The mocks file
+contains a simple json object with key/values. The key is the exact url that is fetched by jsonFetch, the value is
+a reference to another json file which contains the response that should be returned.
+
 ## Api endpoints
 This package also contains a few example api endpoints that can be used in production.
 
