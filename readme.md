@@ -8,7 +8,7 @@ This package contains a few modules which can be useful for quickly building JSO
 The most notably is the register_endpoint, which leverages caching and rate limiting using
 Express as server.
 
-### logging
+### Logging
 Simple logging, used by the other modules but can be used on its own too.
 
 ```javascript
@@ -131,7 +131,7 @@ const express = require('express'),
 health.api(app, '/api/health');
 ```
 
-### Uptime
+### uptime
 Api endpoint that will return the uptime of the server since the node process was started OR since it was
 last reset. The reset can be useful to remotely reset the uptime. If it is paired with a mechanism on the
 frontend that will refresh the page when the uptime is lower than the last retrieved uptime value, it can
