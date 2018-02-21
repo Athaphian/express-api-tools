@@ -3,9 +3,6 @@
 	"version": "1.0.2",
 	"description": "Pragmatic tools to build JSON api endpoints.",
 	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
 	"author": {
 		"name": "Bas Biesheuvel",
 		"email": "athaphian@gmail.com"

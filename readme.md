@@ -127,7 +127,15 @@ jsonFetch.getJson('https://www.google.com', headers).then(body => {
 
 > Mocks can be enabled by starting the server using a command line argument mocks=./someMocksFile.json. The mocks file
 contains a simple json object with key/values. The key is the exact url that is fetched by jsonFetch, the value is
-a reference to another json file which contains the response that should be returned.
+a reference to another json file which contains the response that should be returned. If the value is 'ENOTFOUND',
+a not found error will be simulated.
+```json
+{
+	"https://www.google.com": "./mocks/google_mock.json",
+	"https://www.bing.com": "ENOTFOUND"
+}
+
+```
 
 ## Api endpoints
 This package also contains a few example api endpoints that can be used in production.

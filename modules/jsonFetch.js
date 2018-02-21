@@ -30,6 +30,16 @@ module.exports = (function() {
 		if (useMocks) {
 			const mockResponseFile = mocks[url];
 			if (mockResponseFile) {
+				if (mockResponseFile === 'ENOTFOUND') {
+					return new Promise(function(resolve, reject) {
+						reject({
+							message: 'request failed because of mock ENOTFOUND',
+							code: 'ENOTFOUND',
+							name: 'FetchError'
+						})
+					});
+				}
+
 				try {
 					const mockResponse = JSON.parse(fs.readFileSync(mockResponseFile, 'utf8'));
 					return new Promise(function(resolve) {
