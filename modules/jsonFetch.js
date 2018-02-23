@@ -7,6 +7,14 @@ module.exports = (function() {
 	let useMocks = false,
 		mocks;
 
+	const handleHttpErrors = response => {
+		if (response.status !== 200) {
+			throw {error: `${response.status} ${response.statusText}`, response: response};
+		} else {
+			return response;
+		}
+	};
+
 	const mocksFile = process.argv.filter(arg => arg.startsWith('mocks=')).map(arg => arg.substr(6))[0];
 	if (mocksFile) {
 
@@ -55,13 +63,9 @@ module.exports = (function() {
 		return fetch(url, {
 			'headers': headers,
 			'timeout': DEFAULT_TIMEOUT
-		}).then(response => {
-			if (response.status !== 200) {
-				throw {error: `${response.status} ${response.statusText}`, response: response};
-			} else {
-				return response;
-			}
-		}).then(response => response.json());
+		})
+			.then(handleHttpErrors)
+			.then(response => response.json());
 	}
 
 	function postJson(url, headers, body) {
@@ -70,7 +74,9 @@ module.exports = (function() {
 			'timeout': DEFAULT_TIMEOUT,
 			'body': body,
 			'method': 'POST'
-		}).then((response) => response.json());
+		})
+			.then(handleHttpErrors)
+			.then((response) => response.json());
 	}
 
 	return {
