@@ -42,6 +42,7 @@ module.exports = (function() {
 
 				try {
 					const mockResponse = JSON.parse(fs.readFileSync(mockResponseFile, 'utf8'));
+					log.info('[ ] Mock "' + mockResponseFile + '" used to simulate response.');
 					return new Promise(function(resolve) {
 						resolve(mockResponse);
 					});
