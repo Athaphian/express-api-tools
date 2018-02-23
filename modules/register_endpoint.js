@@ -18,7 +18,12 @@ module.exports = (function() {
 					cache.putInCache('get', req.originalUrl, cacheTime, jsonResult);
 					cache.cleanupCache();
 				}).catch(error => {
-					log.error(error);
+					if (error.error) {
+						// This is for when the registerEndpoint is used in combination with jsonFetch (which returns {error} in stead of error)
+						log.error(error.error);
+					} else {
+						log.error(error);
+					}
 					res.end(JSON.stringify({}));
 				});
 			}
@@ -43,7 +48,12 @@ module.exports = (function() {
 						cache.putInCache('get', req.originalUrl, cacheTime, jsonResult);
 						cache.cleanupCache();
 					}).catch(error => {
-						log.error(error);
+						if (error.error) {
+							// This is for when the registerEndpoint is used in combination with jsonFetch (which returns {error} in stead of error)
+							log.error(error.error);
+						} else {
+							log.error(error);
+						}
 						res.end(JSON.stringify({}));
 					});
 				});
