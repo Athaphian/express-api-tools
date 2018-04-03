@@ -34,7 +34,7 @@ module.exports = (function() {
 		log.setEnabled(loggingWasEnabled);
 	}
 
-	function getJson(url, headers) {
+	function getJson(url, headers = {}) {
 		if (useMocks) {
 			const mockResponseFile = mocks[url];
 			if (mockResponseFile) {
@@ -68,7 +68,7 @@ module.exports = (function() {
 			.then(response => response.json());
 	}
 
-	function postJson(url, headers, body) {
+	function postJson(url, body, headers = {}) {
 		return fetch(url, {
 			'headers': headers,
 			'timeout': DEFAULT_TIMEOUT,
