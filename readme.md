@@ -144,7 +144,8 @@ unmocked calls, if needed. This can be done by adding the command line argument:
 Mocks can also automatically be recorded (to take a snapshot of a specific moment). Add the following command line argument:
 ```generate-mocks=./some/path/someMocksFile.json```. The mocks file will be appended if it already exists. Otherwise,
 it will be created and all recorded mocks will be automatically added. The actual responses will be recorded in separate
-json files that will be saved in the same directory as the specified mocks file.
+json files that will be saved in the same directory as the specified mocks file. If a response is recorded once, subsequent
+calls to the same endpoint will return the mocked response.
 
 ## Api endpoints
 This package also contains a few example api endpoints that can be used in production.

@@ -1,6 +1,6 @@
 {
 	"name": "express-api-tools",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "Pragmatic tools to build JSON api endpoints.",
 	"main": "index.js",
 	"author": {
