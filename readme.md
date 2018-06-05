@@ -125,7 +125,8 @@ jsonFetch.getJson('https://www.google.com', headers).then(body => {
 
 > A simple post variant is also available.
 
-> Mocks can be enabled by starting the server using a command line argument mocks=./someMocksFile.json. The mocks file
+#### Mocks
+Mocks can be enabled by starting the server using a command line argument: ```mocks=./someMocksFile.json```. The mocks file
 contains a simple json object with key/values. The key is the exact url that is fetched by jsonFetch, the value is
 a reference to another json file which contains the response that should be returned. If the value is 'ENOTFOUND',
 a not found error will be simulated.
@@ -134,8 +135,17 @@ a not found error will be simulated.
 	"https://www.google.com": "./mocks/google_mock.json",
 	"https://www.bing.com": "ENOTFOUND"
 }
-
 ```
+
+It is possible to enable logging of all calls that are not mocked while mocks are enabled. This can be used to trace
+unmocked calls, if needed. This can be done by adding the command line argument: ```report-unmocked=true```.
+
+#### Mock recording
+Mocks can also automatically be recorded (to take a snapshot of a specific moment). Add the following command line argument:
+```generate-mocks=./some/path/someMocksFile.json```. The mocks file will be appended if it already exists. Otherwise,
+it will be created and all recorded mocks will be automatically added. The actual responses will be recorded in separate
+json files that will be saved in the same directory as the specified mocks file. If a response is recorded once, subsequent
+calls to the same endpoint will return the mocked response.
 
 ## Api endpoints
 This package also contains a few example api endpoints that can be used in production.
