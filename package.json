@@ -1,6 +1,6 @@
 {
 	"name": "express-api-tools",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "Pragmatic tools to build JSON api endpoints.",
 	"main": "index.js",
 	"author": {
@@ -25,7 +25,8 @@
 	],
 	"dependencies": {
 		"limiter": "^1.1.2",
-		"node-fetch": "^1.7.3"
+		"node-fetch": "^1.7.3",
+		"body-parser": "^1.18.3"
 	},
 	"keywords": [
 		"express",

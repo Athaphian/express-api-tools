@@ -14,8 +14,9 @@ module.exports = (function() {
 	};
 
 	const callImplementation = (implementation, request, response, cacheTime) => {
-		implementation(request.params, cacheTime).then(result => {
+		implementation(request.params, cacheTime, request.body).then(result => {
 			const jsonResult = JSON.stringify(result);
+			response.type('json');
 			response.end(jsonResult);
 			cache.putInCache('get', request.originalUrl, cacheTime, jsonResult);
 			cache.cleanupCache();
@@ -42,6 +43,15 @@ module.exports = (function() {
 		});
 	}
 
+	function registerPostEndpoint(express, baseUrl, cacheTime, implementation) {
+		express.post(baseUrl, function api(request, response) {
+			wrapInCache(request, response, () => {
+				log.info('[X] Handling', request.originalUrl);
+				callImplementation(implementation, request, response, cacheTime);
+			});
+		});
+	}
+
 	function registerEndpointWithRateLimit(express, baseUrl, cacheTime, implementation, millisecondsToWait) {
 		const limiter = new RateLimiter(1, millisecondsToWait);
 
@@ -57,6 +67,7 @@ module.exports = (function() {
 
 	return {
 		'default': registerEndpoint,
-		'withRateLimit': registerEndpointWithRateLimit
+		'withRateLimit': registerEndpointWithRateLimit,
+		'registerPost': registerPostEndpoint
 	};
 }());

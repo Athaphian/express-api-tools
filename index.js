@@ -4,7 +4,8 @@ const cache = require('./modules/cache'),
 	env = require('./modules/env'),
 	health = require('./modules/health'),
 	uptime = require('./modules/uptime'),
-	jsonFetch = require('./modules/jsonFetch');
+	jsonFetch = require('./modules/jsonFetch'),
+	enablePost = require('./modules/enablePost');
 
 module.exports = {
 	cache,
@@ -13,5 +14,6 @@ module.exports = {
 	env,
 	health,
 	uptime,
-	jsonFetch
+	jsonFetch,
+	enablePost
 };
