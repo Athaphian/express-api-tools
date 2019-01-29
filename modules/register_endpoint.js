@@ -13,18 +13,18 @@ module.exports = (function() {
 		response.end(JSON.stringify({}));
 	};
 
-	const callImplementation = (implementation, request, response, cacheTime) => {
+	const callImplementation = (implementation, request, response, cacheTime, method) => {
 		implementation(request.params, cacheTime, request.body).then(result => {
 			const jsonResult = JSON.stringify(result);
 			response.type('json');
 			response.end(jsonResult);
-			cache.putInCache('get', request.originalUrl, cacheTime, jsonResult);
+			cache.putInCache(method, request.originalUrl, cacheTime, jsonResult);
 			cache.cleanupCache();
 		}).catch(errorHandler(response));
 	};
 
-	const wrapInCache = (request, response, implementation) => {
-		const cachedResponse = cache.getFromCache('get', request.originalUrl);
+	const wrapInCache = (request, response, method, implementation) => {
+		const cachedResponse = cache.getFromCache(method, request.originalUrl);
 
 		if (cachedResponse) {
 			log.info('[ ] Serving', request.originalUrl, 'from cache.');
@@ -36,18 +36,36 @@ module.exports = (function() {
 
 	function registerEndpoint(express, baseUrl, cacheTime, implementation) {
 		express.use(baseUrl, function api(request, response) {
-			wrapInCache(request, response, () => {
+			wrapInCache(request, response, 'get', () => {
 				log.info('[X] Handling', request.originalUrl);
-				callImplementation(implementation, request, response, cacheTime);
+				callImplementation(implementation, request, response, cacheTime, 'get');
 			});
 		});
 	}
 
 	function registerPostEndpoint(express, baseUrl, cacheTime, implementation) {
 		express.post(baseUrl, function api(request, response) {
-			wrapInCache(request, response, () => {
+			wrapInCache(request, response, 'post', () => {
 				log.info('[X] Handling', request.originalUrl);
-				callImplementation(implementation, request, response, cacheTime);
+				callImplementation(implementation, request, response, cacheTime, 'post');
+			});
+		});
+	}
+
+	function registerPutEndpoint(express, baseUrl, cacheTime, implementation) {
+		express.put(baseUrl, function api(request, response) {
+			wrapInCache(request, response, 'put', () => {
+				log.info('[X] Handling', request.originalUrl);
+				callImplementation(implementation, request, response, cacheTime, 'put');
+			});
+		});
+	}
+
+	function registerDeleteEndpoint(express, baseUrl, cacheTime, implementation) {
+		express.delete(baseUrl, function api(request, response) {
+			wrapInCache(request, response, 'delete', () => {
+				log.info('[X] Handling', request.originalUrl);
+				callImplementation(implementation, request, response, cacheTime, 'delete');
 			});
 		});
 	}
@@ -56,10 +74,10 @@ module.exports = (function() {
 		const limiter = new RateLimiter(1, millisecondsToWait);
 
 		express.use(baseUrl, function api(request, response) {
-			wrapInCache(request, response, () => {
+			wrapInCache(request, response, 'get', () => {
 				limiter.removeTokens(1, function() {
 					log.info('[X] Handling', request.originalUrl);
-					callImplementation(implementation, request, response, cacheTime);
+					callImplementation(implementation, request, response, cacheTime, 'get');
 				});
 			});
 		});
@@ -68,6 +86,10 @@ module.exports = (function() {
 	return {
 		'default': registerEndpoint,
 		'withRateLimit': registerEndpointWithRateLimit,
-		'registerPost': registerPostEndpoint
+		'registerPost': registerPostEndpoint,
+		'get': registerEndpoint,
+		'post': registerPostEndpoint,
+		'put': registerPutEndpoint,
+		'delete': registerDeleteEndpoint
 	};
 }());

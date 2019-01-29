@@ -33,9 +33,31 @@ module.exports = (function() {
 			.then((response) => response.json())
 			.then(jsonFetchMocks.generateMocks(url, 'POST'));
 	}
+	
+	function withHttpsProxy(proxyHost, proxyPort) {
+		const httpsProxy = require('./httpsProxy').withProxy(proxyHost, proxyPort);
+
+		return {
+			getJson: function(url, headers = {}) {
+				if (url.startsWith('https://')) {
+					return httpsProxy.getJson(url, headers);
+				} else {
+					return getJson(url, headers);
+				}
+			},
+			postJson: function(url, body, headers = {}) {
+				if (url.startsWith('https://')) {
+					return httpsProxy.postJson(url, body, headers);
+				} else {
+					return postJson(url, body, headers)
+				}
+			}
+		};
+	}
 
 	return {
 		'getJson': getJson,
-		'postJson': postJson
+		'postJson': postJson,
+		'withHttpsProxy': withHttpsProxy
 	};
 }());
