@@ -20,6 +20,7 @@ module.exports = (function() {
                 path = url.substr(indexOfSlash);
 
             return new Promise(function(resolve) {
+                let responseData = '';
                 Https.request({
                     // like you'd do it usually...
                     host: host,
@@ -30,7 +31,18 @@ module.exports = (function() {
                     headers: headers
                 }, function (res) {
                     res.on('data', function (data) {
-                        resolve(JSON.parse(data.toString()));
+                        responseData += data;
+                    });
+
+                    res.on('end', function () {
+                        try {
+                            resolve(JSON.parse(responseData.toString()));
+                        } catch (e) {
+                            resolve({
+                                error: e,
+                                data: data.toString()
+                            });
+                        }
                     });
                 }).end();
             });
@@ -44,6 +56,7 @@ module.exports = (function() {
                 path = url.substr(indexOfSlash);
 
             return new Promise(function(resolve) {
+                let responseData = '';
                 const post_req = Https.request({
                     // like you'd do it usually...
                     host: host,
@@ -56,7 +69,18 @@ module.exports = (function() {
                     // body: body
                 }, function (res) {
                     res.on('data', function (data) {
-                        resolve(JSON.parse(data.toString()));
+                        responseData += data;
+                    });
+
+                    res.on('end', function () {
+                        try {
+                            resolve(JSON.parse(responseData.toString()));
+                        } catch (e) {
+                            resolve({
+                                error: e,
+                                data: data.toString()
+                            });
+                        }
                     });
                 });
 

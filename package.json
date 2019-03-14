@@ -24,10 +24,11 @@
 		}
 	],
 	"dependencies": {
-		"limiter": "^1.1.2",
-		"node-fetch": "^1.7.3",
 		"body-parser": "^1.18.3",
-		"https-proxy-agent": "^2.2.1"
+		"https-proxy-agent": "^2.2.1",
+		"json-formatter-js": "^2.2.1",
+		"limiter": "^1.1.2",
+		"node-fetch": "^1.7.3"
 	},
 	"keywords": [
 		"express",
